@@ -452,3 +452,218 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+
+
+
+
+// page bg
+document.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.getElementById('cosmosCanvas');
+    
+    // Check if canvas is supported
+    if (!canvas || !canvas.getContext) {
+        console.error('Canvas not supported');
+        return;
+    }
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+        console.error('Canvas context not available');
+        return;
+    }
+    
+    // Set canvas dimensions to window size
+    function resizeCanvas() {
+        // Use device pixel ratio for sharper rendering on high DPI screens
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        
+        // Scale context according to device pixel ratio
+        ctx.scale(dpr, dpr);
+        
+        // Set canvas CSS dimensions
+        canvas.style.width = `${window.innerWidth}px`;
+        canvas.style.height = `${window.innerHeight}px`;
+        
+        // Redraw everything after resize
+        initializeStars();
+    }
+    
+    // Handle window resize
+    window.addEventListener('resize', debounce(resizeCanvas, 200));
+    
+    // Debounce function to limit resize events
+    function debounce(func, wait) {
+        let timeout;
+        return function() {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, arguments), wait);
+        };
+    }
+    
+    // Star properties
+    const baseColor = '#282828';
+    const starColors = ['#ffffff', '#efefef', '#d8d8d8', '#cccccc', '#f0f0f0'];
+    let galaxies = [];
+    let stars = [];
+    let animationId = null;
+    
+    // Initialize galaxies (subtle background elements)
+    function initializeGalaxies() {
+        galaxies = [];
+        
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        
+        for (let i = 0; i < 3; i++) {
+            galaxies.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                radius: Math.random() * 300 + 200,
+                opacity: Math.random() * 0.05 + 0.02
+            });
+        }
+    }
+    
+    // Initialize stars
+    function initializeStars() {
+        // Cancel any existing animation before recreating
+        if (animationId) {
+            cancelAnimationFrame(animationId);
+        }
+        
+        // Clear arrays
+        stars = [];
+        
+        // Create 3 layers of stars for parallax effect
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const starDensity = Math.min(width, height) / 10; // Adjust based on screen size
+        
+        createStarLayer(Math.floor(starDensity * 0.7), 0.5, 1.2, 0.2); // far layer
+        createStarLayer(Math.floor(starDensity * 0.5), 1, 1.8, 0.5);   // mid layer
+        createStarLayer(Math.floor(starDensity * 0.2), 1.5, 2.2, 0.8); // near layer
+        
+        // Initialize galaxies
+        initializeGalaxies();
+        
+        // Initial draw
+        drawScene();
+    }
+    
+    function createStarLayer(count, minSize, maxSize, speed) {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        
+        for (let i = 0; i < count; i++) {
+            stars.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                radius: Math.random() * (maxSize - minSize) + minSize,
+                color: starColors[Math.floor(Math.random() * starColors.length)],
+                opacity: Math.random() * 0.3 + 0.3,
+                twinkleSpeed: Math.random() * 0.01 + 0.005,
+                twinklePhase: Math.random() * Math.PI * 2,
+                velocity: speed * (Math.random() * 0.05 + 0.02)
+            });
+        }
+    }
+    
+    // Draw the entire scene
+    function drawScene() {
+        try {
+            // Clear canvas
+            ctx.fillStyle = baseColor;
+            ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+            
+            // Draw galaxies
+            galaxies.forEach(galaxy => {
+                const gradient = ctx.createRadialGradient(
+                    galaxy.x, galaxy.y, 0,
+                    galaxy.x, galaxy.y, galaxy.radius
+                );
+                gradient.addColorStop(0, `rgba(58, 58, 58, ${galaxy.opacity})`);
+                gradient.addColorStop(0.7, 'rgba(40, 40, 40, 0)');
+                
+                ctx.beginPath();
+                ctx.fillStyle = gradient;
+                ctx.arc(galaxy.x, galaxy.y, galaxy.radius, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            
+            // Draw stars
+            const height = window.innerHeight;
+            const width = window.innerWidth;
+            
+            stars.forEach(star => {
+                // Calculate twinkle effect
+                const time = Date.now() * star.twinkleSpeed;
+                const twinkle = 0.3 * Math.sin(time + star.twinklePhase) + 0.7;
+                
+                ctx.beginPath();
+                ctx.fillStyle = star.color;
+                ctx.globalAlpha = star.opacity * twinkle;
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 1;
+                
+                // Add subtle glow for larger stars
+                if (star.radius > 1.3) {
+                    ctx.beginPath();
+                    const glowGradient = ctx.createRadialGradient(
+                        star.x, star.y, 0,
+                        star.x, star.y, star.radius * 4
+                    );
+                    glowGradient.addColorStop(0, `rgba(255, 255, 255, ${0.1 * twinkle * star.opacity})`);
+                    glowGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                    
+                    ctx.fillStyle = glowGradient;
+                    ctx.arc(star.x, star.y, star.radius * 4, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                
+                // Move stars slightly for subtle parallax
+                star.y += star.velocity;
+                
+                // Reset position when out of bounds
+                if (star.y > height) {
+                    star.y = 0;
+                    star.x = Math.random() * width;
+                }
+            });
+            
+            // Add noise texture overlay (optimized)
+            addNoiseTexture();
+            
+            // Animation loop
+            animationId = requestAnimationFrame(drawScene);
+        } catch (error) {
+            console.error('Error in animation loop:', error);
+            cancelAnimationFrame(animationId);
+        }
+    }
+    
+    function addNoiseTexture() {
+        // Optimized noise effect - only apply to a subset of pixels
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
+        
+        // Sparse noise points
+        for (let i = 0; i < width * height / 10000; i++) {
+            const x = Math.random() * width;
+            const y = Math.random() * height;
+            const size = Math.random() + 0.5;
+            
+            ctx.beginPath();
+            ctx.arc(x, y, size/2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+    
+    // Initialize and start animation
+    resizeCanvas();
+});
