@@ -4,13 +4,5 @@ services:
     env: node
     buildCommand: npm install
     startCommand: node backend/server.js
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: MONGO_URI
-        sync: false
-      - key: PORT
-        value: 10000
     healthCheckPath: /health
-    autoDeploy: true
-    plan: free 
+    autoDeploy: true 
