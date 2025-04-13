@@ -1,0 +1,17 @@
+{
+  "name": "dnd-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Design and Develop",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.3"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+} 

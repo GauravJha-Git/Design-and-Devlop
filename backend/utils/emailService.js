@@ -32,11 +32,12 @@ export const sendFormSubmissionEmail = async (formData) => {
         subject: 'New Form Submission',
         html: `
             <h2>New Form Submission Received</h2>
-            <p><strong>Name:</strong> ${formData.firstName} ${formData.lastName}</p>
-            <p><strong>Email:</strong> ${formData.email}</p>
-            <p><strong>Phone:</strong> ${formData.number || 'Not provided'}</p>
-            <p><strong>WhatsApp:</strong> ${formData.watsNumber || 'Not provided'}</p>
-            <p><strong>Service:</strong> ${formData.service}</p>
+            <p><strong>First Name:</strong> ${formData.firstName || 'Not provided'}</p>
+            <p><strong>Last Name:</strong> ${formData.lastName || 'Not provided'}</p>
+            <p><strong>Email:</strong> ${formData.email || 'Not provided'}</p>
+            <p><strong>Phone Number:</strong> ${formData.number || 'Not provided'}</p>
+            <p><strong>WhatsApp Number:</strong> ${formData.watsNumber || 'Not provided'}</p>
+            <p><strong>Service:</strong> ${formData.service || 'Not provided'}</p>
             <p><strong>Comments:</strong> ${formData.comments || 'Not provided'}</p>
             <p><strong>Submission Time:</strong> ${new Date().toLocaleString()}</p>
         `

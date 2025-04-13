@@ -25,4 +25,12 @@ build/
 
 # Logs
 logs/
-*.log 
+*.log
+
+# Frontend
+frontend/dist/
+frontend/.vite/
+
+# Backend
+backend/.env
+backend/logs/ 

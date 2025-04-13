@@ -2,7 +2,24 @@ services:
   - type: web
     name: dnd-backend
     env: node
-    buildCommand: npm install
-    startCommand: node backend/server.js
-    healthCheckPath: /health
-    autoDeploy: true 
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 18.x
+      - key: MONGO_URI
+        sync: false
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASS
+        sync: false
+    healthCheckPath: /api/health
+    autoDeploy: true
+
+  - type: static
+    name: dnd-frontend
+    buildCommand: cd frontend && npm install
+    publishPath: frontend/public
+    envVars:
+      - key: NODE_VERSION
+        value: 18.x 
