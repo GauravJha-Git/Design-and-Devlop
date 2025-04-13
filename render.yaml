@@ -18,12 +18,12 @@ services:
     healthCheckPath: /api/health
     autoDeploy: true
 
-  - type: static-site
+  - type: static
     name: dnd-frontend
     rootDir: frontend
-    buildCommand: npm install
+    buildCommand: npm run build
     publishPath: public
     plan: free
     envVars:
       - key: NODE_VERSION
-        value: 18.x 
+        value: 18.x
