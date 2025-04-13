@@ -1,17 +1,5 @@
 {
-  "name": "design-and-develop",
-  "version": "1.0.0",
-  "description": "Design and Develop website",
-  "main": "script.js",
-  "scripts": {
-    "start": "vercel dev",
-    "build": "vercel build",
-    "deploy": "vercel deploy --prod"
-  },
   "dependencies": {
-    "vercel": "^28.16.11"
-  },
-  "devDependencies": {
-    "@vercel/node": "^2.15.0"
+    "bootstrap": "^5.3.3"
   }
-} 
+}
