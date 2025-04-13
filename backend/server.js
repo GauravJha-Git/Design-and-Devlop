@@ -18,10 +18,14 @@ app.use(cors({
 }));
 
 // MongoDB Connection
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 10000;
 const MONGO_URI = process.env.MONGO_URI;
 
-mongoose.connect(MONGO_URI, { dbName: 'TrialDB' })
+mongoose.connect(MONGO_URI, { 
+  dbName: 'TrialDB',
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
   .then(() => {
     console.log('✅ MongoDB Connected Successfully');
     app.listen(PORT, '0.0.0.0', () => {
@@ -32,6 +36,11 @@ mongoose.connect(MONGO_URI, { dbName: 'TrialDB' })
 
 // Routes
 app.use('/api/form', formRoutes);
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
 
 app.get('/', (req, res) => {
     res.send('Server is running!');
