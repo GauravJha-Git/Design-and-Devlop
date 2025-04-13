@@ -25,24 +25,8 @@ app.use(cors({
 app.use(express.static(path.join(__dirname, '..')));
 
 // MongoDB Connection
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 3000; // Changed to 3000 as it's more common
 const MONGO_URI = process.env.MONGO_URI;
-
-// Start server first, then connect to MongoDB
-const server = app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  
-  // Connect to MongoDB after server is started
-  mongoose.connect(MONGO_URI, { 
-    dbName: 'TrialDB',
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-    .then(() => {
-      console.log('✅ MongoDB Connected Successfully');
-    })
-    .catch(err => console.error('❌ MongoDB Connection Failed:', err));
-});
 
 // API Routes
 app.use('/api/form', formRoutes);
@@ -58,4 +42,22 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'index.html'));
   }
 });
+
+// Connect to MongoDB first
+mongoose.connect(MONGO_URI, { 
+  dbName: 'TrialDB',
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+  .then(() => {
+    console.log('✅ MongoDB Connected Successfully');
+    // Start server after MongoDB connection
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+  })
+  .catch(err => {
+    console.error('❌ MongoDB Connection Failed:', err);
+    process.exit(1);
+  });
 

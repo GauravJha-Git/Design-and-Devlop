@@ -9,8 +9,5 @@ services:
         value: production
       - key: MONGO_URI
         sync: false
-      - key: PORT
-        value: 10000
     healthCheckPath: /health
-    autoDeploy: true
-    rootDir: . 
+    autoDeploy: true 
