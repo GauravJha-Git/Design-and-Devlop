@@ -25,7 +25,7 @@ app.use(cors({
 app.use(express.static(path.join(__dirname, '..')));
 
 // MongoDB Connection
-const PORT = process.env.PORT || 3000; // Changed to 3000 as it's more common
+const PORT = process.env.PORT || 10000;
 const MONGO_URI = process.env.MONGO_URI;
 
 // API Routes
@@ -52,8 +52,14 @@ mongoose.connect(MONGO_URI, {
   .then(() => {
     console.log('✅ MongoDB Connected Successfully');
     // Start server after MongoDB connection
-    app.listen(PORT, () => {
+    const server = app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 Server running on port ${PORT}`);
+    });
+
+    // Handle server errors
+    server.on('error', (error) => {
+      console.error('Server error:', error);
+      process.exit(1);
     });
   })
   .catch(err => {
