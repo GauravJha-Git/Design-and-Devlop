@@ -28,18 +28,21 @@ app.use(express.static(path.join(__dirname, '..')));
 const PORT = process.env.PORT || 10000;
 const MONGO_URI = process.env.MONGO_URI;
 
-mongoose.connect(MONGO_URI, { 
-  dbName: 'TrialDB',
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-  .then(() => {
-    console.log('✅ MongoDB Connected Successfully');
-    app.listen(PORT, '0.0.0.0', () => {
-      console.log(`🚀 Server running on port ${PORT}`);
-    });
+// Start server first, then connect to MongoDB
+const server = app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+  
+  // Connect to MongoDB after server is started
+  mongoose.connect(MONGO_URI, { 
+    dbName: 'TrialDB',
+    useNewUrlParser: true,
+    useUnifiedTopology: true
   })
-  .catch(err => console.error('❌ MongoDB Connection Failed:', err));
+    .then(() => {
+      console.log('✅ MongoDB Connected Successfully');
+    })
+    .catch(err => console.error('❌ MongoDB Connection Failed:', err));
+});
 
 // API Routes
 app.use('/api/form', formRoutes);
