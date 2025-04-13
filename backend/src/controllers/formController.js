@@ -1,36 +1,52 @@
 import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+// In-memory storage for form submissions
+const submissions = [];
+
+// Create transporter for nodemailer
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
 
 export const submitForm = async (req, res) => {
   try {
-    const { firstName, lastName, email, number, watsNumber, service, comments } = req.body;
+    const { firstName, lastName, email, number, whatsapp, service } = req.body;
 
-    // Create transporter
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      }
-    });
+    // Store submission in memory
+    const submission = {
+      firstName,
+      lastName,
+      email,
+      number,
+      whatsapp,
+      service,
+      timestamp: new Date()
+    };
+    submissions.push(submission);
 
-    // Email options
+    // Send email
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
+      to: process.env.EMAIL_USER, // Send to yourself
       subject: 'New Contact Form Submission',
       text: `
-        First Name: ${firstName}
-        Last Name: ${lastName || 'Not provided'}
+        Name: ${firstName} ${lastName}
         Email: ${email}
-        Phone Number: ${number}
-        WhatsApp Number: ${watsNumber || 'Not provided'}
+        Phone: ${number}
+        WhatsApp: ${whatsapp}
         Service: ${service}
-        Comments: ${comments || 'Not provided'}
       `
     };
 
-    // Send email
     await transporter.sendMail(mailOptions);
+
     res.status(200).json({ message: 'Form submitted successfully' });
   } catch (error) {
     console.error('Error submitting form:', error);

@@ -2,13 +2,15 @@ services:
   - type: web
     name: dnd-backend
     env: node
-    buildCommand: cd backend && npm install
-    startCommand: cd backend && npm start
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    plan: free
     envVars:
       - key: NODE_VERSION
         value: 18.x
-      - key: MONGO_URI
-        sync: false
+      - key: PORT
+        value: 10000
       - key: EMAIL_USER
         sync: false
       - key: EMAIL_PASS
@@ -18,8 +20,10 @@ services:
 
   - type: static
     name: dnd-frontend
-    buildCommand: cd frontend && npm install
-    publishPath: frontend/public
+    rootDir: frontend
+    buildCommand: npm install
+    publishPath: public
+    plan: free
     envVars:
       - key: NODE_VERSION
         value: 18.x 
