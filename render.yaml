@@ -11,5 +11,6 @@ services:
         sync: false
       - key: FRONTEND_URL
         sync: false
-    healthCheckPath: /
-    autoDeploy: true 
+    healthCheckPath: /health
+    autoDeploy: true
+    rootDir: . 

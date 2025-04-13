@@ -3,7 +3,11 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import formRoutes from './routes/formRoutes.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
@@ -16,6 +20,9 @@ app.use(cors({
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type']
 }));
+
+// Serve static files from the root directory
+app.use(express.static(path.join(__dirname, '..')));
 
 // MongoDB Connection
 const PORT = process.env.PORT || 10000;
@@ -34,7 +41,7 @@ mongoose.connect(MONGO_URI, {
   })
   .catch(err => console.error('❌ MongoDB Connection Failed:', err));
 
-// Routes
+// API Routes
 app.use('/api/form', formRoutes);
 
 // Health check endpoint
@@ -42,7 +49,10 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok' });
 });
 
-app.get('/', (req, res) => {
-    res.send('Server is running!');
+// Serve index.html for all routes except /api/*
+app.get('*', (req, res) => {
+  if (!req.path.startsWith('/api/')) {
+    res.sendFile(path.join(__dirname, '..', 'index.html'));
+  }
 });
 
