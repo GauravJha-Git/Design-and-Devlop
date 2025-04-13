@@ -16,7 +16,7 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:8000',
+  origin: '*', // Allow all origins in production
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type']
 }));
