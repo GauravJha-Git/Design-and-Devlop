@@ -2,31 +2,23 @@
   "version": 2,
   "builds": [
     {
-      "src": "*.html",
+      "src": "index.html",
       "use": "@vercel/static"
     },
     {
-      "src": "*.js",
+      "src": "about.html",
       "use": "@vercel/static"
     },
     {
-      "src": "*.css",
+      "src": "style.css",
       "use": "@vercel/static"
     },
     {
-      "src": "*.png",
+      "src": "about.css",
       "use": "@vercel/static"
     },
     {
-      "src": "*.jpg",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "*.webp",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "*.svg",
+      "src": "script.js",
       "use": "@vercel/static"
     },
     {
@@ -40,7 +32,19 @@
       "dest": "/api/send-email.js"
     },
     {
-      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|ico|webp|svg))",
+      "src": "/style.css",
+      "dest": "/style.css"
+    },
+    {
+      "src": "/about.css",
+      "dest": "/about.css"
+    },
+    {
+      "src": "/script.js",
+      "dest": "/script.js"
+    },
+    {
+      "src": "/(.*\\.(png|jpg|jpeg|gif|ico|webp|svg))",
       "headers": {
         "cache-control": "public, max-age=31536000, immutable"
       },
