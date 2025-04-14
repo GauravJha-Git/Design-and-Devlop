@@ -11,17 +11,25 @@ services:
         value: 18.x
       - key: PORT
         value: 10000
+      - key: MONGO_URI
+        sync: false
       - key: EMAIL_USER
         sync: false
       - key: EMAIL_PASS
         sync: false
+      - key: EMAIL_HOST
+        value: smtp.gmail.com
+      - key: EMAIL_PORT
+        value: 587
+      - key: NODE_ENV
+        value: production
     healthCheckPath: /api/health
     autoDeploy: true
 
-  - type: static
+  - type: static-site
     name: dnd-frontend
     rootDir: frontend
-    buildCommand: npm run build
+    buildCommand: npm install
     publishPath: public
     plan: free
     envVars:

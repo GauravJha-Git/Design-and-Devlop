@@ -1,71 +1,83 @@
 # Design and Develop Website
 
-This is the repository for the Design and Develop website, including both frontend and backend components.
+This is the repository for the Design and Develop website, a full-stack web application with Node.js backend and static HTML/CSS/JS frontend.
 
 ## Project Structure
 
 ```
 .
-├── frontend/           # Frontend static files
+├── frontend/          # Frontend static files
 │   └── public/        # Public assets and HTML files
-├── backend/           # Backend Flask application
+├── backend/           # Backend Node.js application
 │   ├── routes/        # API routes
 │   ├── models/        # Database models
-│   └── utils/         # Utility functions
+│   └── server.js      # Main server file
 ├── render.yaml        # Render deployment configuration
 └── README.md          # This file
 ```
 
-## Deployment Instructions
+## Tech Stack
+
+- **Frontend**: HTML, CSS, JavaScript, Bootstrap
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB Atlas
+- **Email**: Nodemailer with Gmail
+- **Deployment**: Render
+
+## Deployment Instructions for Render
 
 ### Prerequisites
 - Render account
-- MongoDB database
-- Gmail account for email service
+- MongoDB Atlas account (free tier is fine)
+- Gmail account with app-specific password
 
 ### Environment Variables
 Create a `.env` file in the backend directory with the following variables:
 ```
-MONGO_URI=your_mongodb_connection_string
+MONGO_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<database>?retryWrites=true&w=majority
 EMAIL_USER=your_email@gmail.com
-EMAIL_PASS=your_app_specific_password
+EMAIL_PASS=your_app_password
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
 PORT=10000
+NODE_ENV=production
 ```
 
 ### Deployment Steps
 
-1. Push your code to a GitHub repository
-2. Connect your repository to Render
-3. Set up the following environment variables in Render:
+1. Push your code to GitHub
+2. Log in to Render
+3. Click "New" and select "Blueprint"
+4. Connect your GitHub repository
+5. Confirm the deployment configuration from render.yaml
+6. Add your environment variables:
    - MONGO_URI
    - EMAIL_USER
    - EMAIL_PASS
-4. Deploy both services:
-   - Backend (Python service)
-   - Frontend (Static site)
 
-### Health Check
-The backend service includes a health check endpoint at `/api/health` that returns a 200 status when the service is running correctly.
+Render will automatically deploy both the backend service and the static site frontend.
 
-## Development
+### Checking Deployment Status
 
-### Local Setup
-1. Install Python dependencies:
-   ```bash
-   cd backend
-   pip install -r requirements.txt
-   ```
+1. Backend: Check the health endpoint at `https://your-backend-service.onrender.com/api/health`
+2. Frontend: Visit `https://your-frontend-site.onrender.com`
 
-2. Start the backend server:
-   ```bash
-   python app.py
-   ```
+## Local Development
 
-3. Serve the frontend:
-   ```bash
-   cd frontend/public
-   python -m http.server 8000
-   ```
+### Backend
+```bash
+cd backend
+npm install
+npm start
+```
+
+### Frontend
+```bash
+cd frontend
+python -m http.server 8000 --directory public
+```
+
+The frontend will be available at http://localhost:8000 and the backend at http://localhost:10000.
 
 ## Contact
 

@@ -3,6 +3,7 @@ node_modules/
 npm-debug.log
 yarn-debug.log
 yarn-error.log
+package-lock.json
 
 # Environment variables
 .env
@@ -10,27 +11,44 @@ yarn-error.log
 .env.development.local
 .env.test.local
 .env.production.local
+backend/.env
 
 # IDE
 .vscode/
 .idea/
+*.sublime-project
+*.sublime-workspace
 
 # OS
 .DS_Store
 Thumbs.db
+*.tmp
+*.swp
 
 # Build
 dist/
 build/
+frontend/dist/
+frontend/.vite/
 
 # Logs
 logs/
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+backend/logs/
 
-# Frontend
-frontend/dist/
-frontend/.vite/
+# Local development
+.vercel
+.netlify
+.next
 
-# Backend
-backend/.env
-backend/logs/ 
+# Testing
+coverage/
+.nyc_output/
+
+# Misc
+.cache/
+.temp/
+.tmp/ 

@@ -15,28 +15,28 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(express.json());
+app.use(express.json({ limit: '10kb' }));
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type']
 }));
 
-// Serve static files from the root directory
-app.use(express.static(path.join(__dirname, '..')));
+// Serve static files from the frontend/public directory
+app.use(express.static(path.join(__dirname, '../frontend/public')));
 
 // API Routes
 app.use('/api/form', formRoutes);
 
 // Health check endpoint
-app.get('/health', (req, res) => {
+app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok' });
 });
 
 // Serve index.html for all routes except /api/*
 app.get('*', (req, res) => {
   if (!req.path.startsWith('/api/')) {
-    res.sendFile(path.join(__dirname, '..', 'index.html'));
+    res.sendFile(path.join(__dirname, '../frontend/public/index.html'));
   }
 });
 
@@ -50,15 +50,11 @@ app.use((err, req, res, next) => {
 const startServer = async () => {
   try {
     // Connect to MongoDB
-    await mongoose.connect(process.env.MONGO_URI, {
-      dbName: 'TrialDB',
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
+    await mongoose.connect(process.env.MONGO_URI);
     console.log('✅ MongoDB Connected Successfully');
 
     // Start the server
-    const port = process.env.PORT || 3000;
+    const port = process.env.PORT || 10000;
     const server = app.listen(port, () => {
       console.log(`🚀 Server running on port ${port}`);
     });
