@@ -32,7 +32,6 @@ services:
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: ./public
-    plan: free
     envVars:
       - key: NODE_VERSION
         value: 18.x
