@@ -318,7 +318,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
   
-    const API_URL = 'https://dnd-backend.onrender.com/api/form/submit';
+    // Change from absolute to relative URL
+    const API_URL = '/api/form/submit';
+    
+    console.log("API endpoint configured:", API_URL);
   
     submitButton.addEventListener("click", async function (event) {
         event.preventDefault();
@@ -361,6 +364,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
   
         try {
+            console.log("Sending form data:", formData);
+            
             const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: {
@@ -369,7 +374,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(formData)
             });
   
-            const data = await response.json();
+            console.log("Response status:", response.status);
+            console.log("Response headers:", Object.fromEntries([...response.headers]));
+            
+            // Get the raw text response first
+            const responseText = await response.text();
+            console.log("Response text:", responseText);
+            
+            // Only try to parse as JSON if it looks like JSON
+            let data;
+            try {
+                data = JSON.parse(responseText);
+            } catch (e) {
+                console.error("JSON parse error:", e);
+                throw new Error(`Invalid JSON response. Received: ${responseText.substring(0, 100)}...`);
+            }
             
             if (response.ok) {
                 // Show success message

@@ -16,11 +16,18 @@ const app = express();
 
 // Middleware
 app.use(express.json({ limit: '10kb' }));
+console.log('Setting up CORS with origin: *');
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type']
 }));
+
+// Log all incoming requests for debugging
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path} - ${req.ip}`);
+  next();
+});
 
 // Serve static files from the frontend/public directory
 app.use(express.static(path.join(__dirname, '../frontend/public')));
