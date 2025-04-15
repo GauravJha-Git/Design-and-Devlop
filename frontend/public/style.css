@@ -59,6 +59,14 @@ body{
     
 }
 
+.img-afterSuc{
+  height: 100%;
+    width: 100%;
+    object-fit: contain;
+    display: block;
+    
+}
+
 .nav-bar-text{
   position: absolute;
   left: 0;
