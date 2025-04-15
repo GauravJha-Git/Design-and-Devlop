@@ -2356,3 +2356,9 @@ button:focus-visible {
   width: 95%;
   object-fit: contain;
 }
+
+@media screen and (min-width: 1399px) {
+  .nav-logo-img {
+    display: none;
+  }
+}

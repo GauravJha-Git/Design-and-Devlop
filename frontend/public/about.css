@@ -21,6 +21,7 @@ body{
 .dragonlair_wrapper {
     margin-top: 200px;
     max-width: 1200px;
+    height: 2000px;
     position: relative;
     margin: 0 auto;
     padding: 2rem;
@@ -67,7 +68,7 @@ h1 {
     margin-top: 2rem;
 }
 
-.heroic_persona {
+.heroic_persona {    
     background-color: #333;
     border-radius: 8px;
     overflow: hidden;
@@ -97,6 +98,7 @@ h1 {
 }
 
 .scroll_description {
+    
     padding: 1.5rem;
 }
 
@@ -204,3 +206,4 @@ h1 {
         grid-template-columns: 1fr;
     }
 }
+
