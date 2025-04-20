@@ -1107,8 +1107,11 @@ footer{
 }
 
 @media (min-width: 576px) and (max-width: 767px) {
+  #nav-section{
+    display: none;
+  }
 
-  .nav-bar{
+  /* .nav-bar{
     height: auto;
     border-radius: 15px;
     justify-content: center;
@@ -1134,10 +1137,10 @@ footer{
   .nav-item:hover {
     background: none !important;
     transform: none !important;
-    pointer-events: none; /* Disables hover */
+    pointer-events: none; 
   }
 
-/* Remove ::before and ::after effects */
+
   .nav-item::before,.nav-item::after {
       content: none !important;
       display: none !important;
@@ -1160,7 +1163,7 @@ footer{
   .nav-icons{
     display: block;
   }
-  
+   */
 .team-container{
   display: none;
 }
@@ -1472,7 +1475,11 @@ footer{
 /* Old phones */
 @media (max-width: 575px) {
 
-  .nav-logo{
+  #nav-section{
+    display: none;
+  }
+
+  /* .nav-logo{
     display: none;
   }
 
@@ -1511,10 +1518,9 @@ footer{
   .nav-item:hover {
     background: none !important;
     transform: none !important;
-    pointer-events: none; /* Disables hover */
-  }
+    pointer-events: none; 
+   } */
 
-/* Remove ::before and ::after effects */
   .nav-item::before,.nav-item::after {
       content: none !important;
       display: none !important;
@@ -1526,7 +1532,7 @@ footer{
   .nav-icons{
     display: block;
    
-  }
+  } */
   
 .team-container{
   display: none;
