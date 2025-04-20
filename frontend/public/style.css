@@ -485,6 +485,7 @@ fill: currentColor;
   width: 100%;
   margin-top: 10%;
   text-align: center;
+
 }
 
 .heading-services-a {
@@ -545,8 +546,8 @@ fill: currentColor;
     font-size: 25px;
 }
 .service-des{
-opacity: 0;
-transform: translateY(40px); /* Off-screen bottom */
+  opacity: 0;
+  transform: translateY(40px); /* Off-screen bottom */
   transition: opacity 1s ease, transform 1s ease;
   transition-delay: 0.6s;
   font-size: 14px;
