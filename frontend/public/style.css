@@ -1107,6 +1107,7 @@ footer{
 }
 
 @media (min-width: 576px) and (max-width: 767px) {
+
   #nav-section{
     display: none;
   }
@@ -1519,7 +1520,8 @@ footer{
     background: none !important;
     transform: none !important;
     pointer-events: none; 
-   } */
+  }
+
 
   .nav-item::before,.nav-item::after {
       content: none !important;
