@@ -1165,6 +1165,9 @@ footer{
     display: block;
   }
    */
+   .nav-bar-text{
+    display: none;
+  }
 .team-container{
   display: none;
 }
@@ -1535,6 +1538,9 @@ footer{
     display: block;
    
   } */
+  .nav-bar-text{
+    display: none;
+  }
   
 .team-container{
   display: none;
